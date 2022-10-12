@@ -1,0 +1,37 @@
+Trabalho 4
+Eduardo Henrique Machado Vieira
+
+ENUNCIADO
+
+Sua tarefa será transformar um conjunto de 5 sites, sobre o tema de processamento de linguagem natural em um conjunto de cinco listas distintas de sentenças. Ou seja, você fará uma função que, usando a biblioteca beautifull Soap, faça a requisição de uma url, e extrai todas as sentenças desta url. Duas condições são importantes:
+
+a) A página web (url) deve apontar para uma página web em inglês contendo, não menos que 1000 palavras.
+
+b) O texto desta página deverá ser transformado em um array de senteças.
+
+Para separar as sentenças você pode usar os sinais de pontuação ou as funções da biblibioteca Spacy.
+
+from bs4 import BeautifulSoup as soup
+from urllib.request import urlopen as req
+
+def pegaFrases(url):
+  client = req(url)
+  page_html = client.read()
+  client.close()
+
+  page_soup = soup(page_html, "html.parser")
+
+  paragrafos = page_soup.findAll("p")
+  frases = []
+  for paragrafo in paragrafos:
+    seg = paragrafo.text.split(". ")
+    for s in seg:
+      frases.append(s)
+
+  return frases
+  
+print(pegaFrases('https://en.wikipedia.org/wiki/Natural_language_processing'))
+print(pegaFrases('https://www.datarobot.com/blog/what-is-natural-language-processing-introduction-to-nlp/'))
+print(pegaFrases('https://hbr.org/2022/04/the-power-of-natural-language-processing'))
+print(pegaFrases('https://www.tutorialspoint.com/artificial_intelligence/artificial_intelligence_natural_language_processing.htm#'))
+print(pegaFrases('https://www.tableau.com/learn/articles/natural-language-processing-examples'))
